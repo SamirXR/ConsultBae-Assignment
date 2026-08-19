@@ -72,6 +72,7 @@ async function toggleRecording() {
             recordStartTime = Date.now();
             pausedTimeTotal = 0;
             pauseStartTime = 0;
+            finalRecordedMs = null;
             
             clearInterval(recordingInterval);
             recordingInterval = setInterval(updateTimer, 100);
@@ -96,7 +97,10 @@ async function toggleRecording() {
             showToast('Microphone access error: ' + err.message, 'error');
         }
     } else if (mediaRecorder.state === 'recording' || mediaRecorder.state === 'paused') {
-        // Stop Recording
+        // Calculate exact frozen recorded duration at this instant
+        const now = pauseStartTime ? pauseStartTime : Date.now();
+        finalRecordedMs = Math.max(0, now - recordStartTime - pausedTimeTotal);
+
         if (mediaRecorder.state === 'paused') {
             mediaRecorder.resume();
         }
@@ -105,7 +109,12 @@ async function toggleRecording() {
             mediaRecorder.stream.getTracks().forEach(track => track.stop());
         }
         clearInterval(recordingInterval);
+        recordingInterval = null;
+        recordStartTime = 0;
+        pauseStartTime = 0;
+
         stopWaveform();
+        updateTimer(); // Renders the exact frozen finalRecordedMs!
 
         recBtn.classList.remove('recording');
         recIcon.className = 'fa-solid fa-microphone';
@@ -123,6 +132,7 @@ async function toggleRecording() {
 let recordStartTime = 0;
 let pauseStartTime = 0;
 let pausedTimeTotal = 0;
+let finalRecordedMs = null;
 
 function togglePauseRecording() {
     if (!mediaRecorder) return;
@@ -163,15 +173,20 @@ function togglePauseRecording() {
 }
 
 function updateTimer() {
-    if (!recordStartTime) {
+    let elapsedMs = 0;
+    if (finalRecordedMs !== null) {
+        elapsedMs = finalRecordedMs;
+    } else if (recordStartTime) {
+        let currentPaused = pausedTimeTotal;
+        if (pauseStartTime) {
+            currentPaused += (Date.now() - pauseStartTime);
+        }
+        elapsedMs = Math.max(0, Date.now() - recordStartTime - currentPaused);
+    } else {
         document.getElementById('recordTimer').innerText = '00:00.0';
         return;
     }
-    let currentPaused = pausedTimeTotal;
-    if (pauseStartTime) {
-        currentPaused += (Date.now() - pauseStartTime);
-    }
-    const elapsedMs = Math.max(0, Date.now() - recordStartTime - currentPaused);
+
     const totalSecs = elapsedMs / 1000;
     const mins = String(Math.floor(totalSecs / 60)).padStart(2, '0');
     const secs = String(Math.floor(totalSecs % 60)).padStart(2, '0');
@@ -191,7 +206,9 @@ function resetRecording() {
     recordStartTime = 0;
     pauseStartTime = 0;
     pausedTimeTotal = 0;
+    finalRecordedMs = null;
     clearInterval(recordingInterval);
+    recordingInterval = null;
     stopWaveform();
 
     updateTimer();

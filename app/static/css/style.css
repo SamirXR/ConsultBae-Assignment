@@ -310,23 +310,36 @@ canvas#waveformCanvas {
     text-shadow: 0 0 12px rgba(255, 255, 255, 0.15);
 }
 
-.rec-controls { display: flex; justify-content: center; gap: 0.75rem; }
+.rec-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.rec-controls button {
+    height: 40px;
+    padding: 0 1.25rem;
+    border-radius: 20px;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+    cursor: pointer;
+    transition: var(--transition);
+    outline: none;
+    box-sizing: border-box;
+}
 
 .btn-rec {
     background: #141414;
     color: var(--text-main);
     border: 1px solid var(--border-color);
-    padding: 0.65rem 1.4rem;
-    border-radius: 30px;
-    font-family: var(--font-mono);
-    font-weight: 500;
-    font-size: 0.8rem;
-    letter-spacing: 0.5px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    transition: var(--transition);
 }
 
 .btn-rec:hover {
@@ -338,22 +351,24 @@ canvas#waveformCanvas {
     background: rgba(16, 185, 129, 0.12);
     border-color: rgba(16, 185, 129, 0.6);
     color: #34d399;
-    box-shadow: 0 0 20px rgba(16, 185, 129, 0.2);
+    box-shadow: 0 0 18px rgba(16, 185, 129, 0.2);
 }
 
 .btn-secondary {
     background: rgba(255, 255, 255, 0.04);
     color: var(--text-muted);
     border: 1px solid var(--border-color);
-    padding: 0.65rem 1.1rem;
-    border-radius: 30px;
-    font-family: var(--font-mono);
-    font-size: 0.78rem;
-    cursor: pointer;
-    transition: var(--transition);
 }
 
 .btn-secondary:hover { background: rgba(255,255,255,0.08); color: var(--text-main); }
+
+#recordedAudioPreview {
+    width: 100%;
+    margin-top: 1rem;
+    border-radius: 8px;
+    outline: none;
+    filter: invert(0.88) hue-rotate(180deg);
+}
 
 /* ── Upload Zone ── */
 .upload-dropzone {
