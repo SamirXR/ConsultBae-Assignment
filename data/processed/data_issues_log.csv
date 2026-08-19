@@ -1,0 +1,46 @@
+source_file,row_num,issue_type,description,severity,action_taken
+source1_naukri_applicants.csv,2,CTC_FORMAT_VARIATION,Raw CTC value '417964' converted to 4.18 LPA,MEDIUM,NORMALIZED_TO_LPA
+source1_naukri_applicants.csv,3,CTC_FORMAT_VARIATION,Raw CTC value '332456' converted to 3.32 LPA,MEDIUM,NORMALIZED_TO_LPA
+source1_naukri_applicants.csv,4,CTC_FORMAT_VARIATION,Raw CTC value '775670' converted to 7.76 LPA,MEDIUM,NORMALIZED_TO_LPA
+source1_naukri_applicants.csv,5,CTC_FORMAT_VARIATION,Raw CTC value '654699' converted to 6.55 LPA,MEDIUM,NORMALIZED_TO_LPA
+source1_naukri_applicants.csv,6,CTC_FORMAT_VARIATION,Raw CTC value '4.2' converted to 4.2 LPA,MEDIUM,NORMALIZED_TO_LPA
+source1_naukri_applicants.csv,7,CTC_FORMAT_VARIATION,Raw CTC value '806661' converted to 8.07 LPA,MEDIUM,NORMALIZED_TO_LPA
+source1_naukri_applicants.csv,8,CTC_FORMAT_VARIATION,Raw CTC value '8.3' converted to 8.3 LPA,MEDIUM,NORMALIZED_TO_LPA
+source1_naukri_applicants.csv,9,CTC_FORMAT_VARIATION,Raw CTC value '472935' converted to 4.73 LPA,MEDIUM,NORMALIZED_TO_LPA
+source1_naukri_applicants.csv,10,CTC_FORMAT_VARIATION,Raw CTC value '366311' converted to 3.66 LPA,MEDIUM,NORMALIZED_TO_LPA
+source1_naukri_applicants.csv,11,CTC_FORMAT_VARIATION,Raw CTC value '871686' converted to 8.72 LPA,MEDIUM,NORMALIZED_TO_LPA
+source1_naukri_applicants.csv,12,CTC_FORMAT_VARIATION,Raw CTC value '864237' converted to 8.64 LPA,MEDIUM,NORMALIZED_TO_LPA
+source1_naukri_applicants.csv,13,CTC_FORMAT_VARIATION,Raw CTC value '1195422' converted to 11.95 LPA,MEDIUM,NORMALIZED_TO_LPA
+source1_naukri_applicants.csv,14,CTC_FORMAT_VARIATION,Raw CTC value '5.1' converted to 5.1 LPA,MEDIUM,NORMALIZED_TO_LPA
+source1_naukri_applicants.csv,15,CTC_FORMAT_VARIATION,Raw CTC value '826748' converted to 8.27 LPA,MEDIUM,NORMALIZED_TO_LPA
+source1_naukri_applicants.csv,16,CTC_FORMAT_VARIATION,Raw CTC value '6.1' converted to 6.1 LPA,MEDIUM,NORMALIZED_TO_LPA
+source1_naukri_applicants.csv,17,CTC_FORMAT_VARIATION,Raw CTC value '5.8' converted to 5.8 LPA,MEDIUM,NORMALIZED_TO_LPA
+source1_naukri_applicants.csv,18,CTC_FORMAT_VARIATION,Raw CTC value '11.2' converted to 11.2 LPA,MEDIUM,NORMALIZED_TO_LPA
+source1_naukri_applicants.csv,19,CTC_FORMAT_VARIATION,Raw CTC value '7.6' converted to 7.6 LPA,MEDIUM,NORMALIZED_TO_LPA
+source1_naukri_applicants.csv,20,CTC_FORMAT_VARIATION,Raw CTC value '1181149' converted to 11.81 LPA,MEDIUM,NORMALIZED_TO_LPA
+source1_naukri_applicants.csv,21,CTC_FORMAT_VARIATION,Raw CTC value '2.4' converted to 2.4 LPA,MEDIUM,NORMALIZED_TO_LPA
+source1_naukri_applicants.csv,22,CTC_FORMAT_VARIATION,Raw CTC value '10.0' converted to 10.0 LPA,MEDIUM,NORMALIZED_TO_LPA
+source1_naukri_applicants.csv,23,CTC_FORMAT_VARIATION,Raw CTC value '327287' converted to 3.27 LPA,MEDIUM,NORMALIZED_TO_LPA
+source1_naukri_applicants.csv,24,CTC_FORMAT_VARIATION,Raw CTC value '11.9' converted to 11.9 LPA,MEDIUM,NORMALIZED_TO_LPA
+source1_naukri_applicants.csv,25,CTC_FORMAT_VARIATION,Raw CTC value '6.1' converted to 6.1 LPA,MEDIUM,NORMALIZED_TO_LPA
+source1_naukri_applicants.csv,26,CTC_FORMAT_VARIATION,Raw CTC value '410629' converted to 4.11 LPA,MEDIUM,NORMALIZED_TO_LPA
+source1_naukri_applicants.csv,27,CTC_FORMAT_VARIATION,Raw CTC value '7.8' converted to 7.8 LPA,MEDIUM,NORMALIZED_TO_LPA
+source1_naukri_applicants.csv,28,CTC_FORMAT_VARIATION,Raw CTC value '6.6' converted to 6.6 LPA,MEDIUM,NORMALIZED_TO_LPA
+source1_naukri_applicants.csv,29,CTC_FORMAT_VARIATION,Raw CTC value '775796' converted to 7.76 LPA,MEDIUM,NORMALIZED_TO_LPA
+source1_naukri_applicants.csv,30,CTC_FORMAT_VARIATION,Raw CTC value '792474' converted to 7.92 LPA,MEDIUM,NORMALIZED_TO_LPA
+source1_naukri_applicants.csv,31,CTC_FORMAT_VARIATION,Raw CTC value '6.1' converted to 6.1 LPA,MEDIUM,NORMALIZED_TO_LPA
+source1_naukri_applicants.csv,32,CTC_FORMAT_VARIATION,Raw CTC value '7.6' converted to 7.6 LPA,MEDIUM,NORMALIZED_TO_LPA
+source1_naukri_applicants.csv,33,CTC_FORMAT_VARIATION,Raw CTC value '1160787' converted to 11.61 LPA,MEDIUM,NORMALIZED_TO_LPA
+source1_naukri_applicants.csv,34,CTC_FORMAT_VARIATION,Raw CTC value '2.7' converted to 2.7 LPA,MEDIUM,NORMALIZED_TO_LPA
+source1_naukri_applicants.csv,35,CTC_FORMAT_VARIATION,Raw CTC value '1135514' converted to 11.36 LPA,MEDIUM,NORMALIZED_TO_LPA
+source1_naukri_applicants.csv,36,CTC_FORMAT_VARIATION,Raw CTC value '11.4' converted to 11.4 LPA,MEDIUM,NORMALIZED_TO_LPA
+source1_naukri_applicants.csv,37,CTC_FORMAT_VARIATION,Raw CTC value '7.8' converted to 7.8 LPA,MEDIUM,NORMALIZED_TO_LPA
+source1_naukri_applicants.csv,38,CTC_FORMAT_VARIATION,Raw CTC value '626740' converted to 6.27 LPA,MEDIUM,NORMALIZED_TO_LPA
+source1_naukri_applicants.csv,39,CTC_FORMAT_VARIATION,Raw CTC value '9.3' converted to 9.3 LPA,MEDIUM,NORMALIZED_TO_LPA
+source1_naukri_applicants.csv,40,CTC_FORMAT_VARIATION,Raw CTC value '5.9' converted to 5.9 LPA,MEDIUM,NORMALIZED_TO_LPA
+source1_naukri_applicants.csv,41,CTC_FORMAT_VARIATION,Raw CTC value '621881' converted to 6.22 LPA,MEDIUM,NORMALIZED_TO_LPA
+source1_naukri_applicants.csv,42,CTC_FORMAT_VARIATION,Raw CTC value '10.3' converted to 10.3 LPA,MEDIUM,NORMALIZED_TO_LPA
+source1_naukri_applicants.csv,43,CTC_FORMAT_VARIATION,Raw CTC value '694306' converted to 6.94 LPA,MEDIUM,NORMALIZED_TO_LPA
+source2_gig_workers.csv,12,BLANK_ROW,Entirely empty row encountered,LOW,SKIPPED
+source2_gig_workers.csv,20,SHIFTED_COLUMNS_BUG,"Skill tags 'react, javascript, mysql' in email column; shifted email 'ISHA.CHOPRA95@MAILTEST.EXAMPLE.ORG' and name 'Isha Chopra'",HIGH,REALIGNED_COLUMNS
+source3_cbnexus_contacts.csv,16,REPEATED_HEADER_ROW,Mid-file duplicate header row encountered,MEDIUM,SKIPPED

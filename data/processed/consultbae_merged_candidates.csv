@@ -1,0 +1,56 @@
+full_name,email,alt_email,phone,city,experience_years,ctc_lpa,applied_date,gig_rate,gig_rate_num,gig_rate_unit,gig_status,skills,cbnexus_verified,cbnexus_projects,sources_found
+Tanvi Gupta,tanvi.gupta31@example.com,,9000000254,Bengaluru,4.2,4.18,2026-07-24,1331/hr,1331.0,hr,Paused,"n8n, LangChain, REST APIs, MongoDB, SQL",0,14,"cbnexus,gig,naukri"
+Manish Reddy,manish.reddy73@example.com,,9000000237,Gurugram,3.5,3.32,2026-08-08,,,,,"Docker, Zapier, JavaScript",0,0,naukri
+Priya Singh,priya.singh61@mailtest.example.org,,9000000287,Gurugram,3.0,7.76,2026-08-01,,,,,"React, Zapier, n8n, MySQL, Python, SQL",1,3,"cbnexus,naukri"
+Vikram Saxena,vikram.saxena60@example.com,,9000000113,Gurugram,1.9,6.55,2026-07-07,843/hr,843.0,hr,Active,"Selenium, Web Scraping, React, Docker, SQL, FastAPI",0,15,"cbnexus,gig,naukri"
+Amit Agarwal,amit.agarwal3@mailtest.example.org,,9000000288,Pune,1.8,4.2,2026-07-19,,,,,"SQL, Python, JavaScript, Docker",0,0,naukri
+Sahil Malhotra,sahil.malhotra1@example.in,,9000000143,Noida,1.7,8.07,2026-07-13,,,,,"FastAPI, Docker, MySQL, Zapier, Pandas, REST APIs",0,0,"cbnexus,naukri"
+Shreya Gupta,shreya.gupta85@example.com,,9000000227,Noida,3.3,8.3,2026-07-19,,,,,"Zapier, Web Scraping, Docker, n8n, Python",1,13,"cbnexus,naukri"
+Isha Chopra,isha.chopra95@mailtest.example.org,,9000000138,Pune,5.4,4.73,2026-08-02,1406/hr,1406.0,hr,Active,"React, JavaScript, MySQL",0,7,"cbnexus,gig,naukri"
+Priya Nair,priya.nair70@example.com,,9000000222,Gurugram,5.6,3.66,2026-07-28,,,,,"Zapier, REST APIs, React, Python, n8n, Web Scraping",0,0,naukri
+Rohit Mishra,rohit.mishra70@mailtest.example.org,,9000000167,Delhi,4.4,8.72,2026-07-13,,,,,"Docker, Pandas, FastAPI, SQL, Zapier, MySQL",0,0,naukri
+Rahul Malhotra,rahul.malhotra69@mailtest.example.org,,9000000260,Delhi,2.5,8.64,2026-07-03,,,,,"MySQL, REST APIs, SQL, MongoDB, Selenium",0,4,"cbnexus,naukri"
+Rahul Jain,rahul.jain34@example.in,,9000000114,Noida,2.8,11.95,2026-06-24,,,,,"Zapier, Selenium, Docker, Python",0,0,naukri
+Nikhil Malhotra,nikhil.malhotra41@example.in,,9000000145,Delhi,4.2,5.1,2026-08-21,,,,,"FastAPI, JavaScript, Web Scraping, SQL, Python",0,0,naukri
+Karan Bhatia,karan.bhatia32@mailtest.example.org,,9000000211,Noida,4.7,8.27,2026-07-08,403/hr,403.0,hr,Active,"SQL, MongoDB, Selenium, Zapier, Web Scraping, JavaScript",1,2,"cbnexus,gig,naukri"
+Ritu Sharma,ritu.sharma23@mailtest.example.org,,9000000146,Noida,4.8,6.1,2026-08-03,,,,,"n8n, Web Scraping, MongoDB, SQL, React",1,15,"cbnexus,naukri"
+Arjun Mishra,arjun.mishra70@example.com,,9000000106,Delhi,1.3,5.8,2026-08-22,440/hr,440.0,hr,Active,"React, Docker, JavaScript",0,10,"cbnexus,gig,naukri"
+Meera Bhatia,meera.bhatia52@mailtest.example.org,,9000000223,Delhi,5.1,11.2,2026-07-03,330/hr,330.0,hr,Active,"LangChain, Docker, MySQL, Python, SQL, React",0,4,"cbnexus,gig,naukri"
+Varun Jain,varun.jain29@example.com,,9000000263,Pune,3.1,7.6,2026-08-19,1415/hr,1415.0,hr,Active,"n8n, Web Scraping, FastAPI, MySQL, Pandas, MongoDB",1,14,"cbnexus,gig,naukri"
+Arjun Mehta,arjun.mehta9@example.in,,9000000131,Noida,4.0,11.81,2026-07-21,,,,,"SQL, Selenium, n8n",0,9,"cbnexus,naukri"
+Kavya Mehta,kavya.mehta7@example.com,,9000000177,Bengaluru,5.1,2.4,2026-07-02,,,,,"n8n, MongoDB, FastAPI, Pandas, React",0,0,naukri
+Sneha Chopra,sneha.chopra99@example.in,,9000000162,Pune,4.9,10.0,2026-07-03,28k/month,28000.0,month,Active,"Pandas, React, MySQL, JavaScript, SQL",0,14,"cbnexus,gig,naukri"
+Deepak Mehta,deepak.mehta86@example.in,,9000000116,Noida,2.7,3.27,2026-07-23,,,,,"MySQL, MongoDB, n8n, LangChain, REST APIs, Selenium",1,11,"cbnexus,naukri"
+Pooja Gupta,pooja.gupta57@mailtest.example.org,,9000000271,Noida,3.9,11.9,2026-06-24,,,,,"Docker, MySQL, SQL, n8n, Selenium",0,0,naukri
+Rohit Verma,rohit.verma13@mailtest.example.org,,9000000294,Bengaluru,2.4,6.1,2026-08-13,,,,,"Python, React, MongoDB",0,0,naukri
+Sneha Mishra,sneha.mishra14@mailtest.example.org,,9000000229,Pune,1.4,4.11,2026-06-15,,,,,"MySQL, Docker, Selenium, Pandas",0,0,naukri
+Nikhil Chopra,alt.nikhil.chopra70@example.com,nikhil.chopra70@example.com,9000000103,Noida,0.8,7.8,2026-07-03,,,,,"Pandas, SQL, n8n",0,0,naukri
+Priya Saxena,priya.saxena61@example.com,,9000000231,Delhi,5.0,6.6,2026-08-16,,,,,"Python, MySQL, Zapier, React",0,12,"cbnexus,naukri"
+Varun Saxena,varun.saxena21@example.in,,9000000170,Gurugram,3.7,7.76,2026-07-05,917/hr,917.0,hr,Inactive,"MongoDB, Zapier, SQL, LangChain, MySQL, REST APIs",1,1,"cbnexus,gig,naukri"
+Gaurav Mehta,gaurav.mehta79@mailtest.example.org,,9000000133,Bengaluru,3.1,7.92,2026-07-19,56k/month,56000.0,month,Active,"REST APIs, SQL, Selenium, FastAPI",0,1,"cbnexus,gig,naukri"
+Rohit Nair,rohit.nair32@mailtest.example.org,,9000000268,Gurugram,2.4,7.6,2026-08-19,,,,,"REST APIs, n8n, Web Scraping, Docker",1,13,"cbnexus,naukri"
+Deepak Nair,deepak.nair44@example.com,,9000000296,Bengaluru,5.0,11.61,2026-07-15,465/hr,465.0,hr,Paused,"React, n8n, MongoDB, Pandas",1,2,"cbnexus,gig,naukri"
+Rahul Chopra,rahul.chopra70@example.com,,9000000137,Noida,1.7,2.7,2026-07-27,72k/month,72000.0,month,Inactive,"Zapier, Docker, Python",0,10,"cbnexus,gig,naukri"
+Deepak Singh,deepak.singh36@mailtest.example.org,,9000000202,Bengaluru,1.7,11.36,2026-08-11,,,,,"Web Scraping, FastAPI, Docker, React",0,0,naukri
+Amit Reddy,amit.reddy9@mailtest.example.org,,9000000165,Delhi,2.7,11.4,2026-07-21,,,,,"React, MySQL, LangChain",0,0,naukri
+Tanvi Agarwal,tanvi.agarwal97@example.in,,9000000148,Pune,5.0,6.27,2026-07-27,1231/hr,1231.0,hr,Active,"MongoDB, REST APIs, FastAPI, Web Scraping",0,3,"cbnexus,gig,naukri"
+Nikhil Mehta,nikhil.mehta5@example.com,,9000000104,Pune,2.9,9.3,2026-07-26,,,,,"Docker, LangChain, Zapier, Selenium, Python, React",1,10,"cbnexus,naukri"
+Isha Kapoor,isha.kapoor54@example.com,,9000000295,Delhi,5.1,5.9,2026-08-21,15k/month,15000.0,month,Active,"FastAPI, Python, JavaScript, Selenium, React, MySQL",1,6,"cbnexus,gig,naukri"
+Arjun Bhatia,arjun.bhatia14@example.com,,9000000212,Delhi,1.5,6.22,2026-06-02,,,,,"Zapier, REST APIs, SQL, FastAPI, Pandas, Web Scraping",0,0,naukri
+Isha Sharma,isha.sharma15@example.com,,9000000259,Delhi,3.5,10.3,2026-07-12,,,,,"n8n, Python, Selenium, JavaScript, REST APIs, MongoDB",0,0,naukri
+Neha Bhatia,neha.bhatia60@mailtest.example.org,,9000000273,Pune,4.2,6.94,2026-07-22,79k/month,79000.0,month,Active,"FastAPI, Zapier, JavaScript, Selenium",0,10,"cbnexus,gig,naukri"
+Arjun Mehta,arjun.mehta77@mailtest.example.org,,9000000272,Noida,,,,42k/month,42000.0,month,Inactive,"fastapi, pandas, web scraping, zapier, docker, mysql",1,14,"cbnexus,gig"
+Manish Bhatia,manish.bhatia3@example.com,,9000000161,Noida,,,,73k/month,73000.0,month,Active,"pandas, docker, javascript, react, rest apis, web scraping",1,5,"cbnexus,gig"
+Divya Chopra,divya.chopra59@example.in,,9000000111,Noida,,,,55k/month,55000.0,month,Inactive,"zapier, docker, mongodb, fastapi",0,5,"cbnexus,gig"
+Karan Chopra,karan.chopra76@mailtest.example.org,,9000000245,Pune,,,,437/hr,437.0,hr,Active,"n8n, selenium, python, mongodb, pandas",0,10,"cbnexus,gig"
+Vikram Mehta,vikram.mehta6@example.com,,9000000261,Pune,,,,22k/month,22000.0,month,Active,"rest apis, python, langchain",1,2,"cbnexus,gig"
+Pooja Kapoor,pooja.kapoor62@example.in,,,Noida,,,,21k/month,21000.0,month,Active,"rest apis, sql, react",0,0,gig
+Kavya Verma,kavya.verma74@mailtest.example.org,,,Gurugram,,,,1483/hr,1483.0,hr,Active,"sql, pandas, web scraping, react",0,0,gig
+Tanvi Reddy,tanvi.reddy80@example.com,,,Pune,,,,59k/month,59000.0,month,Paused,"langchain, docker, python, rest apis, sql",0,0,gig
+Varun Singh,varun.singh81@example.com,,,Noida,,,,763/hr,763.0,hr,Active,"python, react, fastapi, mongodb",0,0,gig
+Tanvi Kapoor,tanvi.kapoor38@example.com,,,Delhi,,,,38k/month,38000.0,month,Active,"docker, selenium, web scraping, mysql",0,0,gig
+Nikhil Nair,nikhil.nair26@example.in,,,Gurugram,,,,1018/hr,1018.0,hr,Active,"python, n8n, web scraping",0,0,gig
+Pooja Reddy,pooja.reddy96@mailtest.example.org,,,Noida,,,,590/hr,590.0,hr,Inactive,"pandas, docker, fastapi, web scraping, sql",0,0,gig
+Tanvi Sharma,tanvi.sharma56@mailtest.example.org,,,Noida,,,,73k/month,73000.0,month,Active,"langchain, python, web scraping, n8n, fastapi",0,0,gig
+Deepak Nair,deepak.nair57@example.in,,,Delhi,,,,1462/hr,1462.0,hr,Active,"javascript, react, docker, web scraping, mysql, sql",0,0,gig
+Anjali Agarwal,anjali.agarwal53@mailtest.example.org,,,Bengaluru,,,,71k/month,71000.0,month,Inactive,"sql, javascript, selenium, rest apis, docker, react",0,0,gig
