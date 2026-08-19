@@ -1,0 +1,413 @@
+{
+  "name": "Candidate Ingestion & AI Intelligence Pipeline",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "candidate-ingestion",
+        "options": {}
+      },
+      "id": "5bf679a2-9189-4bf5-b36d-28a061cb6b56",
+      "name": "Candidate Ingestion Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        96
+      ],
+      "webhookId": "0cee4c94-a61e-443c-acf6-3d8e01b20fb3"
+    },
+    {
+      "parameters": {
+        "jsCode": "const out = [];\nfor (const item of $input.all()) {\n  const b = item.json.body || item.json || {};\n  const rawPhone = String(b.phone == null ? '' : b.phone);\n  const digits = rawPhone.replace(/\\D/g, '');\n  const phone10 = digits.slice(-10);\n  const email = String(b.email == null ? '' : b.email).trim().toLowerCase();\n  const fullName = String(b.full_name == null ? '' : b.full_name).trim();\n  const skills = String(b.skills == null ? '' : b.skills).trim();\n  const city = String(b.city == null ? '' : b.city).trim();\n  const expNum = Number(String(b.experience_years == null ? '' : b.experience_years).replace(/[^0-9.]/g, ''));\n  const errors = [];\n  if (!fullName) errors.push('full_name missing');\n  if (!email || !email.includes('@')) errors.push('email invalid');\n  if (phone10.length !== 10) errors.push('phone not 10 digits');\n  if (!skills) errors.push('skills missing');\n  out.push({ json: {\n    full_name: fullName,\n    email,\n    phone: phone10,\n    skills,\n    experience_years: Number.isFinite(expNum) ? expNum : 0,\n    city,\n    is_valid: errors.length === 0,\n    validation_errors: errors,\n    received_at: Date.now(),\n  } });\n}\nreturn out;"
+      },
+      "id": "4cbc321b-015f-4fee-8ef6-b98ae407e10b",
+      "name": "Normalize & Validate",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        224,
+        96
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:8000/api/check-duplicate",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ phone: $json.phone, email: $json.email }) }}",
+        "options": {}
+      },
+      "id": "2bdf90d0-3d5f-4bd8-ba39-6027df3a2c86",
+      "name": "Duplicate Check",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        448,
+        96
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "dup",
+              "leftValue": "={{ $json.is_duplicate }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "0b64f3bf-3abf-4907-be67-7fdd49bce7fc",
+      "name": "Is Duplicate?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        672,
+        96
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:8000/api/automation-alert",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ channel: '#recruitment-alerts', text: 'DUPLICATE CANDIDATE BLOCKED', blocks: [ { type: 'header', text: { type: 'plain_text', text: 'DUPLICATE CANDIDATE BLOCKED' } }, { type: 'section', fields: [ { type: 'mrkdwn', text: '*Name:*\\n' + $('Normalize & Validate').item.json.full_name }, { type: 'mrkdwn', text: '*Email:*\\n' + $('Normalize & Validate').item.json.email }, { type: 'mrkdwn', text: '*Phone:*\\n' + $('Normalize & Validate').item.json.phone }, { type: 'mrkdwn', text: '*Matched Candidate ID:*\\n' + $json.matched_candidate_id }, { type: 'mrkdwn', text: '*Existing Source:*\\n' + $json.source }, { type: 'mrkdwn', text: '*First Seen:*\\n' + ($json.first_seen || 'n/a') } ] } ] }) }}",
+        "options": {}
+      },
+      "id": "2b4c2d8e-55c4-41b5-811d-3ab6ec5c3f4d",
+      "name": "Slack Duplicate Alert",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        896,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-5-mini",
+          "cachedResultName": "GPT-5-MINI"
+        },
+        "responses": {
+          "values": [
+            {
+              "role": "system",
+              "content": "You are a technical recruiting taxonomy classifier. Classify a candidate's raw skill string into exactly one canonical taxonomy, provide a confidence score, and extract the top 3 core technical keywords. Only output structured JSON."
+            },
+            {
+              "content": "=Candidate skills: {{ $('Normalize & Validate').item.json.skills }}\nExperience (years): {{ $('Normalize & Validate').item.json.experience_years }}\nCity: {{ $('Normalize & Validate').item.json.city }}\n\nClassify into one of: automation-heavy, web-dev, data-engineering, full-stack."
+            }
+          ]
+        },
+        "builtInTools": {},
+        "options": {
+          "maxTokens": 300,
+          "textFormat": {
+            "textOptions": {
+              "type": "json_schema",
+              "name": "skill_taxonomy",
+              "schema": "{\"type\":\"object\",\"additionalProperties\":false,\"properties\":{\"assigned_category\":{\"type\":\"string\",\"enum\":[\"automation-heavy\",\"web-dev\",\"data-engineering\",\"full-stack\"]},\"confidence\":{\"type\":\"number\",\"minimum\":0,\"maximum\":1},\"keywords\":{\"type\":\"array\",\"items\":{\"type\":\"string\"},\"minItems\":3,\"maxItems\":3}},\"required\":[\"assigned_category\",\"confidence\",\"keywords\"]}",
+              "strict": true
+            }
+          }
+        }
+      },
+      "id": "9e5ece7b-9691-497c-9390-86778477655e",
+      "name": "AI Skill Taxonomy",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 2.3,
+      "position": [
+        896,
+        192
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "jKGolNdJRUmmBcv5",
+          "name": "n8n free OpenAI API credits"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "high",
+                    "leftValue": "={{ $json.output[0].content[0].text.confidence }}",
+                    "rightValue": 0.85,
+                    "operator": {
+                      "type": "number",
+                      "operation": "gte"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "High Confidence"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "low",
+                    "leftValue": "={{ $json.output[0].content[0].text.confidence }}",
+                    "rightValue": 0.85,
+                    "operator": {
+                      "type": "number",
+                      "operation": "lt"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Low Confidence Review"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "4ad4f949-2d1e-467e-9778-4b817a0edf97",
+      "name": "Confidence Router",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        1120,
+        192
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:8000/api/candidates/update-skill",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ email: $('Normalize & Validate').item.json.email, phone: $('Normalize & Validate').item.json.phone, full_name: $('Normalize & Validate').item.json.full_name, assigned_category: $json.output[0].content[0].text.assigned_category, keywords: $json.output[0].content[0].text.keywords, confidence: $json.output[0].content[0].text.confidence }) }}",
+        "options": {}
+      },
+      "id": "de94e5d1-42f0-4a6f-a62d-9047561d64ac",
+      "name": "Skill Write-Back",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        1344,
+        96
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const tax = $('AI Skill Taxonomy').item.json.output[0].content[0].text;\nconst norm = $('Normalize & Validate').item.json;\nconst receivedAt = Number(norm.received_at) || Date.now();\nconst latencyMs = Date.now() - receivedAt;\nconst confidence = Number(tax.confidence);\nconst route = confidence >= 0.85 ? 'auto-write-back' : 'human-review';\nreturn { json: {\n  execution_id: $execution.id,\n  execution_status: 'success',\n  candidate_email: norm.email,\n  candidate_phone: norm.phone,\n  assigned_taxonomy: tax.assigned_category,\n  taxonomy_confidence: confidence,\n  keywords: tax.keywords,\n  routed_to: route,\n  latency_ms: latencyMs,\n  logged_at: new Date().toISOString(),\n} };"
+      },
+      "id": "dab43479-1596-4692-be91-54461e8660ff",
+      "name": "Telemetry & Audit Logger",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1568,
+        192
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:8000/api/human-review-queue",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ email: $('Normalize & Validate').item.json.email, phone: $('Normalize & Validate').item.json.phone, full_name: $('Normalize & Validate').item.json.full_name, skills: $('Normalize & Validate').item.json.skills, suggested_category: $json.output[0].content[0].text.assigned_category, confidence: $json.output[0].content[0].text.confidence, keywords: $json.output[0].content[0].text.keywords, review_reason: 'confidence_below_threshold' }) }}",
+        "options": {}
+      },
+      "id": "b3dfc553-6574-4e86-aac3-8a2acdee912f",
+      "name": "Human Review Queue",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        1344,
+        288
+      ]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Candidate Ingestion Webhook": {
+      "main": [
+        [
+          {
+            "node": "Normalize & Validate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Normalize & Validate": {
+      "main": [
+        [
+          {
+            "node": "Duplicate Check",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Duplicate Check": {
+      "main": [
+        [
+          {
+            "node": "Is Duplicate?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Duplicate?": {
+      "main": [
+        [
+          {
+            "node": "Slack Duplicate Alert",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "AI Skill Taxonomy",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Skill Taxonomy": {
+      "main": [
+        [
+          {
+            "node": "Confidence Router",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Confidence Router": {
+      "main": [
+        [
+          {
+            "node": "Skill Write-Back",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Human Review Queue",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Skill Write-Back": {
+      "main": [
+        [
+          {
+            "node": "Telemetry & Audit Logger",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Human Review Queue": {
+      "main": [
+        [
+          {
+            "node": "Telemetry & Audit Logger",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "1e155818-07e1-49a9-8cce-af944fad9af9",
+  "meta": {
+    "instanceId": "9f2641d5d9b9e2f5cff40429ebb0e379ff8cb9e6a16d3115120ab076ce93cfde"
+  },
+  "nodeGroups": [
+    {
+      "id": "0da20bde-e6a7-491d-b944-5a335caddf48",
+      "name": "Ingestion & Normalization",
+      "nodeIds": [
+        "4cbc321b-015f-4fee-8ef6-b98ae407e10b",
+        "2bdf90d0-3d5f-4bd8-ba39-6027df3a2c86"
+      ],
+      "description": "Receives candidate payload, standardizes phone/email, validates integrity, and checks the master DB for duplicates."
+    },
+    {
+      "id": "2f873728-4e5b-449b-93a2-4a9510390d1b",
+      "name": "Duplicate Handling",
+      "nodeIds": [
+        "2b4c2d8e-55c4-41b5-811d-3ab6ec5c3f4d"
+      ],
+      "description": "Sends a Slack alert to #recruitment-alerts when an existing candidate is matched."
+    },
+    {
+      "id": "800eb6ec-624c-4be3-a061-cb6d14be27e8",
+      "name": "AI Intelligence & Routing",
+      "nodeIds": [
+        "9e5ece7b-9691-497c-9390-86778477655e",
+        "4ad4f949-2d1e-467e-9778-4b817a0edf97",
+        "de94e5d1-42f0-4a6f-a62d-9047561d64ac",
+        "b3dfc553-6574-4e86-aac3-8a2acdee912f",
+        "dab43479-1596-4692-be91-54461e8660ff"
+      ],
+      "description": "Classifies skills into a canonical taxonomy, routes by confidence, writes back or queues for review, and logs telemetry."
+    }
+  ],
+  "id": "uNw7w1XMLPxs4XLF",
+  "tags": []
+}
