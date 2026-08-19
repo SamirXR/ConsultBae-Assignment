@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ConsultBae — Audio Collection</title>
+    <meta name="description" content="ConsultBae gig worker audio collection app with real-time property extraction">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <a href="#" class="brand">
+                ConsultBae
+                <span class="brand-badge">audio collection</span>
+            </a>
+            <div class="nav-tabs">
+                <button class="tab-btn active" id="tabSubmitBtn" onclick="switchTab('submitView')">
+                    <i class="fa-solid fa-arrow-up-from-bracket"></i> Submit
+                </button>
+                <button class="tab-btn" id="tabDashboardBtn" onclick="switchTab('dashboardView')">
+                    <i class="fa-solid fa-table-cells"></i> Library · <span id="submissionCount">0</span>
+                </button>
+                <a href="/api/export/candidates.csv" class="tab-btn" style="text-decoration: none;" title="Export CSV">
+                    <i class="fa-solid fa-file-csv"></i> Export
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main -->
+    <main>
+
+        <!-- VIEW 1: SUBMIT -->
+        <section id="submitView" class="view-section active">
+            <div class="glass-card">
+                <h1 class="card-title">Submit Audio Recording</h1>
+                <p class="card-subtitle">Record from your microphone or upload a file. Audio properties are automatically extracted and stored in the database.</p>
+
+                <form id="audioForm" onsubmit="handleFormSubmit(event)">
+
+                    <div class="section-label"><i class="fa-solid fa-user"></i> candidate details</div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="submitterName">full name</label>
+                            <input type="text" id="submitterName" class="input-control" placeholder="Tanvi Gupta" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phoneNumber">phone number</label>
+                            <input type="tel" id="phoneNumber" class="input-control" placeholder="9000000254" required>
+                        </div>
+                    </div>
+
+                    <div class="section-label"><i class="fa-solid fa-waveform"></i> audio source</div>
+                    <div class="audio-source-switch">
+                        <div class="source-opt active" id="optRecord" onclick="selectSourceMode('record')">
+                            <i class="fa-solid fa-microphone"></i> Record Live
+                        </div>
+                        <div class="source-opt" id="optUpload" onclick="selectSourceMode('upload')">
+                            <i class="fa-solid fa-file-audio"></i> Upload File
+                        </div>
+                    </div>
+
+                    <!-- Live Recorder -->
+                    <div id="recorderPanel" class="recorder-box">
+                        <div class="recorder-header-bar">
+                            <div class="studio-badge">
+                                <span class="studio-dot" id="studioDot"></span>
+                                <span id="studioStatus">STUDIO INPUT · IDLE</span>
+                            </div>
+                            <div class="studio-badge" style="color: var(--text-dim);">
+                                48.0 KHZ · MONO
+                            </div>
+                        </div>
+                        <canvas id="waveformCanvas"></canvas>
+                        <div class="timer-display" id="recordTimer">00:00.0</div>
+                        <div class="rec-controls">
+                            <button type="button" class="btn-rec" id="recordBtn" onclick="toggleRecording()">
+                                <i class="fa-solid fa-microphone" id="recIcon"></i> <span id="recText">Record Live Audio</span>
+                            </button>
+                            <button type="button" class="btn-secondary" id="resetRecBtn" onclick="resetRecording()" style="display: none;">
+                                <i class="fa-solid fa-rotate-left"></i> Reset
+                            </button>
+                        </div>
+                        <audio id="recordedAudioPreview" controls style="display: none; margin-top: 1rem; width: 100%;"></audio>
+                    </div>
+
+                    <!-- File Upload -->
+                    <div id="uploadPanel" class="upload-dropzone" style="display: none;" onclick="document.getElementById('audioFileInput').click()">
+                        <input type="file" id="audioFileInput" accept="audio/*" style="display: none;" onchange="handleFileSelected(event)">
+                        <div class="dropzone-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
+                        <div style="font-weight: 500; font-size: 0.9rem;" id="uploadStatusText">Choose a file — WAV, MP3, M4A, OGG</div>
+                        <div style="color: var(--text-dim); font-size: 0.78rem; margin-top: 0.3rem;">up to 50 MB</div>
+                    </div>
+
+                    <button type="submit" class="btn-submit" id="submitBtn">
+                        <i class="fa-solid fa-bolt"></i> Extract Properties & Save
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <!-- VIEW 2: LIBRARY -->
+        <section id="dashboardView" class="view-section">
+            <div class="glass-card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+                    <div>
+                        <h1 class="card-title">Submissions Library</h1>
+                        <p class="card-subtitle" style="margin-bottom: 0;">All audio recordings with extracted properties.</p>
+                    </div>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <a href="/api/export/submissions.csv" class="btn-secondary" style="text-decoration: none; display: inline-flex; align-items: center; gap: 0.4rem;">
+                            <i class="fa-solid fa-download"></i> CSV
+                        </a>
+                        <button class="btn-secondary" onclick="loadSubmissions()">
+                            <i class="fa-solid fa-arrows-rotate"></i> Refresh
+                        </button>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 0.75rem; margin-bottom: 1.5rem; flex-wrap: wrap;">
+                    <div style="flex: 2; min-width: 250px;">
+                        <input type="text" id="searchInput" class="input-control" placeholder="Search by name, phone, or city..." onkeyup="filterSubmissions()" style="width: 100%;">
+                    </div>
+                    <div style="flex: 1; min-width: 160px;">
+                        <select id="qualityFilter" class="input-control" onchange="filterSubmissions()" style="width: 100%;">
+                            <option value="ALL">All Quality</option>
+                            <option value="Excellent">Excellent</option>
+                            <option value="Good">Good</option>
+                            <option value="Fair">Fair</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="submissions-grid" id="submissionsGrid"></div>
+            </div>
+        </section>
+
+    </main>
+
+    <div id="toastContainer"></div>
+    <script src="/static/js/app.js"></script>
+</body>
+</html>
