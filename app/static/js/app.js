@@ -69,16 +69,20 @@ async function toggleRecording() {
             };
 
             mediaRecorder.start();
-            recordSeconds = 0;
-            updateTimer();
-            recordingInterval = setInterval(() => {
-                recordSeconds++;
-                updateTimer();
-            }, 1000);
+            recordStartTime = Date.now();
+            pausedTimeTotal = 0;
+            pauseStartTime = 0;
+            
+            clearInterval(recordingInterval);
+            recordingInterval = setInterval(updateTimer, 100);
 
             recBtn.classList.add('recording');
             recIcon.className = 'fa-solid fa-square';
             recText.innerText = 'Stop Recording';
+
+            document.getElementById('pauseBtn').style.display = 'inline-flex';
+            document.getElementById('pauseIcon').className = 'fa-solid fa-pause';
+            document.getElementById('pauseText').innerText = 'Pause';
 
             document.getElementById('studioDot').classList.add('live');
             document.getElementById('studioStatus').innerText = 'REC · FREQUENCY PROBE LIVE';
@@ -91,10 +95,15 @@ async function toggleRecording() {
             console.error('Microphone access error:', err);
             showToast('Microphone access error: ' + err.message, 'error');
         }
-    } else if (mediaRecorder.state === 'recording') {
+    } else if (mediaRecorder.state === 'recording' || mediaRecorder.state === 'paused') {
         // Stop Recording
+        if (mediaRecorder.state === 'paused') {
+            mediaRecorder.resume();
+        }
         mediaRecorder.stop();
-        mediaRecorder.stream.getTracks().forEach(track => track.stop());
+        if (mediaRecorder.stream) {
+            mediaRecorder.stream.getTracks().forEach(track => track.stop());
+        }
         clearInterval(recordingInterval);
         stopWaveform();
 
@@ -102,6 +111,7 @@ async function toggleRecording() {
         recIcon.className = 'fa-solid fa-microphone';
         recText.innerText = 'Record Live Audio';
 
+        document.getElementById('pauseBtn').style.display = 'none';
         document.getElementById('studioDot').classList.remove('live');
         document.getElementById('studioStatus').innerText = 'STUDIO INPUT · RECORDED';
         document.getElementById('studioStatus').style.color = 'var(--text-main)';
@@ -111,12 +121,57 @@ async function toggleRecording() {
 }
 
 let recordStartTime = 0;
+let pauseStartTime = 0;
+let pausedTimeTotal = 0;
+
+function togglePauseRecording() {
+    if (!mediaRecorder) return;
+
+    const pauseBtn = document.getElementById('pauseBtn');
+    const pauseIcon = document.getElementById('pauseIcon');
+    const pauseText = document.getElementById('pauseText');
+    const studioStatus = document.getElementById('studioStatus');
+
+    if (mediaRecorder.state === 'recording') {
+        mediaRecorder.pause();
+        pauseStartTime = Date.now();
+
+        pauseIcon.className = 'fa-solid fa-play';
+        pauseText.innerText = 'Resume';
+
+        document.getElementById('studioDot').classList.remove('live');
+        studioStatus.innerText = 'PAUSED · STUDIO STANDBY';
+        studioStatus.style.color = 'var(--accent-amber)';
+
+        showToast('Recording paused', 'info');
+    } else if (mediaRecorder.state === 'paused') {
+        mediaRecorder.resume();
+        if (pauseStartTime) {
+            pausedTimeTotal += (Date.now() - pauseStartTime);
+            pauseStartTime = 0;
+        }
+
+        pauseIcon.className = 'fa-solid fa-pause';
+        pauseText.innerText = 'Pause';
+
+        document.getElementById('studioDot').classList.add('live');
+        studioStatus.innerText = 'REC · FREQUENCY PROBE LIVE';
+        studioStatus.style.color = '#34d399';
+
+        showToast('Recording resumed', 'info');
+    }
+}
+
 function updateTimer() {
     if (!recordStartTime) {
         document.getElementById('recordTimer').innerText = '00:00.0';
         return;
     }
-    const elapsedMs = Date.now() - recordStartTime;
+    let currentPaused = pausedTimeTotal;
+    if (pauseStartTime) {
+        currentPaused += (Date.now() - pauseStartTime);
+    }
+    const elapsedMs = Math.max(0, Date.now() - recordStartTime - currentPaused);
     const totalSecs = elapsedMs / 1000;
     const mins = String(Math.floor(totalSecs / 60)).padStart(2, '0');
     const secs = String(Math.floor(totalSecs % 60)).padStart(2, '0');
@@ -125,16 +180,33 @@ function updateTimer() {
 }
 
 function resetRecording() {
+    if (mediaRecorder && (mediaRecorder.state === 'recording' || mediaRecorder.state === 'paused')) {
+        mediaRecorder.stop();
+        if (mediaRecorder.stream) {
+            mediaRecorder.stream.getTracks().forEach(track => track.stop());
+        }
+    }
     recordedBlob = null;
     audioChunks = [];
-    recordSeconds = 0;
     recordStartTime = 0;
+    pauseStartTime = 0;
+    pausedTimeTotal = 0;
+    clearInterval(recordingInterval);
+    stopWaveform();
+
     updateTimer();
     document.getElementById('recordedAudioPreview').style.display = 'none';
+    document.getElementById('pauseBtn').style.display = 'none';
     document.getElementById('resetRecBtn').style.display = 'none';
     document.getElementById('studioDot').classList.remove('live');
     document.getElementById('studioStatus').innerText = 'STUDIO INPUT · IDLE';
     document.getElementById('studioStatus').style.color = 'var(--text-dim)';
+
+    const recBtn = document.getElementById('recordBtn');
+    recBtn.classList.remove('recording');
+    document.getElementById('recIcon').className = 'fa-solid fa-microphone';
+    document.getElementById('recText').innerText = 'Record Live Audio';
+
     showToast('Recording reset', 'info');
 }
 
