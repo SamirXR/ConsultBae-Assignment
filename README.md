@@ -160,6 +160,18 @@ python3 app/server.py
 
 Starts the local Flask web server at `http://localhost:8000`.
 
+### 3b. Deploy to Render
+
+This repo includes a [`render.yaml`](render.yaml) and [`Procfile`](Procfile) so you can create a Render Web Service directly from the GitHub repo.
+
+Use these settings if you deploy manually:
+
+- Build command: `pip install -r requirements.txt`
+- Start command: `gunicorn app.server:app`
+- Health check path: `/`
+
+The app uses SQLite at `database/consultbae.db`, so a Render deployment will work for demo/testing, but data will be lost on restarts unless you add persistent storage or move the database to an external managed service.
+
 ### 4. Workflow Simulation (Task 2)
 
 ```bash
