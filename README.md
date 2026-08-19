@@ -24,7 +24,7 @@ This repository delivers an end-to-end data processing and automation platform b
 
 ## Video Walkthrough
 
-- **Loom Recording**: `[Insert Video Walkthrough URL Here]`
+- **Video Walkthrough**: [Watch Video Demo on Google Drive](https://drive.google.com/file/d/1PIUyshaZB3hJs348txL6xK0uJ_CUdXw8/view)
 - **Walkthrough Guide & Script**: Refer to [`docs/VIDEO_WALKTHROUGH_GUIDE.md`](docs/VIDEO_WALKTHROUGH_GUIDE.md) for the minute-by-minute demonstration script.
 
 ---
