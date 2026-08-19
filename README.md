@@ -1,5 +1,11 @@
 # ConsultBae AI Automation & Data Processing System
 
+[![Python 3.10+](https://img.shields.io/badge/Python-3.10+-3776AB?style=flat&logo=python&logoColor=white)](https://python.org)
+[![Flask 3.0](https://img.shields.io/badge/Flask-3.0-000000?style=flat&logo=flask&logoColor=white)](https://flask.palletsprojects.org/)
+[![n8n Automation](https://img.shields.io/badge/n8n-Automation-FF6D5A?style=flat&logo=n8n&logoColor=white)](https://n8n.io)
+[![FFmpeg Engine](https://img.shields.io/badge/FFmpeg-Audio%20Engine-0078D7?style=flat&logo=ffmpeg&logoColor=white)](https://ffmpeg.org)
+[![SQLite Master DB](https://img.shields.io/badge/SQLite-Database-003B57?style=flat&logo=sqlite&logoColor=white)](https://sqlite.org)
+
 Implementation of the candidate ingestion pipeline, workflow automation, audio processing web application, data quality audit, and system scaling architecture for the ConsultBae AI Automation Assignment.
 
 ---
